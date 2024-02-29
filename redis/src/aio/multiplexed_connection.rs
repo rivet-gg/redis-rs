@@ -358,7 +358,10 @@ impl MultiplexedConnection {
                     driver
                 }
                 futures_util::future::Either::Right(((), _)) => {
-                    unreachable!("Multiplexed connection driver unexpectedly terminated")
+                    return Err(RedisError::from((
+                        crate::ErrorKind::IoError,
+                        "Multiplexed connection driver unexpectedly terminated",
+                    )));
                 }
             }
         };
